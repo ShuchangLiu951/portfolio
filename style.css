@@ -114,6 +114,42 @@ form button:hover {
   color: #555; /* Subtle text color */
 }
 
+/* Resume Page Styling */
+header h1 {
+  font-size: 2em; /* Larger header font size */
+  text-align: center; /* Center-align the header */
+  margin-bottom: 1em; /* Add space below the header */
+}
+
+main {
+  display: grid; /* Use grid layout for the main content */
+  gap: 2em; /* Add space between sections */
+}
+
+section {
+  border: 1px solid #ccc; /* Add a subtle border around each section */
+  border-radius: 8px; /* Rounded corners for sections */
+  padding: 1em; /* Add padding inside sections */
+  background-color: #f9f9f9; /* Light background */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for sections */
+}
+
+section h2 {
+  font-size: 1.5em; /* Adjust section heading size */
+  margin-bottom: 0.5em; /* Add space below section heading */
+  color: #333; /* Darker text color for headings */
+}
+
+section p, section li {
+  font-size: 1em; /* Standardize paragraph and list font size */
+  color: #555; /* Subtle text color */
+  line-height: 1.6; /* Improve readability */
+}
+
+ul li {
+  margin-bottom: 0.5em; /* Add spacing between list items */
+}
+
 /* Define Global Accent Color */
 :root {
   --color-accent: #0078D7; /* Define accent color */
