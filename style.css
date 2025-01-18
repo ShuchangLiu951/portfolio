@@ -69,7 +69,7 @@ form button {
   justify-self: center; /* Center the button */
   padding: 0.5em 1em; /* Add padding */
   border: none; /* Remove default border */
-  background-color: var(--color-accent); /* Use accent color */
+  background-color: #0078D7; /* Use accent color */
   color: white; /* White text color */
   cursor: pointer; /* Pointer cursor on hover */
   border-radius: 4px; /* Rounded corners */
@@ -79,6 +79,42 @@ form button:hover {
   background-color: #5a9; /* Lighter accent color on hover */
 }
 
+/* Styling the Projects Section */
+.projects {
+  display: grid; /* Enable CSS Grid */
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Flexible grid */
+  gap: 1em; /* Add space between items */
+  margin-top: 2em; /* Add spacing above projects section */
+}
+
+.projects article {
+  display: grid; /* Make each article a grid container */
+  grid-template-rows: auto 1fr auto; /* Align heading, image, and text */
+  gap: 0.5em; /* Add spacing between elements */
+  padding: 1em; /* Add padding inside the article */
+  border: 1px solid #ccc; /* Subtle border */
+  border-radius: 8px; /* Rounded corners */
+  background-color: #f9f9f9; /* Light background */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Add shadow */
+}
+
+.projects img {
+  max-width: 100%; /* Ensure image does not exceed container width */
+  height: auto; /* Maintain aspect ratio */
+  border-radius: 4px; /* Rounded corners for the image */
+}
+
+.projects h2 {
+  font-size: 1.5em; /* Adjust heading size */
+  margin: 0; /* Remove default margin */
+}
+
+.projects p {
+  font-size: 1em; /* Adjust text size */
+  color: #555; /* Subtle text color */
+}
+
+/* Define Global Accent Color */
 :root {
   --color-accent: #0078D7; /* Define accent color */
 }
