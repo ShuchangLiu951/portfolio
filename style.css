@@ -1,6 +1,84 @@
+/* General Body Styling */
 body {
-  font: 100%/1.5 system-ui; 
-  max-width: 100ch; 
-  margin-inline: auto; 
-  padding-inline: 1rem; 
+  font: 100%/1.5 system-ui; /* Set font and line height */
+  max-width: 60ch; /* Adjust max width for better alignment */
+  margin-inline: auto; /* Center content horizontally */
+  padding-inline: 1rem; /* Add horizontal padding */
+}
+
+/* Remove default list styling */
+ul {
+  list-style: none; /* Remove bullets */
+  padding: 0;
+  margin: 0;
+}
+
+/* Navigation Bar Styling */
+nav {
+  display: flex; /* Arrange links in a row */
+  margin-bottom: 1em; /* Space below navigation */
+  border-bottom: 1px solid lightgray; /* Subtle border below */
+}
+
+nav a {
+  flex: 1; /* Equal space for each link */
+  text-decoration: none; /* Remove underline */
+  color: inherit; /* Use parent's text color */
+  text-align: center; /* Center text */
+  padding: 0.5em; /* Add padding around links */
+  border-bottom: 0.4em solid transparent; /* Invisible border */
+}
+
+nav a:hover {
+  border-bottom-color: var(--color-accent); /* Accent color on hover */
+}
+
+nav a.current {
+  border-bottom: 0.4em solid lightgray; /* Thicker border for active page */
+  font-weight: bold; /* Highlight current page */
+}
+
+/* Contact Form Styling */
+form {
+  display: grid; /* Use grid for layout */
+  grid-template-columns: auto 1fr; /* Labels auto width, inputs fill space */
+  gap: 1em; /* Add space between elements */
+  margin-top: 1.5em; /* Space above form */
+}
+
+form label {
+  text-align: right; /* Align labels to the right */
+  margin-inline-end: 1em; /* Space between label and input */
+}
+
+form input, form textarea {
+  font: inherit; /* Use the same font as the page */
+  width: 100%; /* Fill the container */
+  box-sizing: border-box; /* Include padding and border in width */
+  padding: 0.5em; /* Add padding for better usability */
+  border: 1px solid #ccc; /* Subtle border */
+  border-radius: 4px; /* Rounded corners */
+}
+
+form textarea {
+  resize: vertical; /* Allow vertical resizing only */
+}
+
+form button {
+  grid-column: 1 / -1; /* Span across the form */
+  justify-self: center; /* Center the button */
+  padding: 0.5em 1em; /* Add padding */
+  border: none; /* Remove default border */
+  background-color: var(--color-accent); /* Use accent color */
+  color: white; /* White text color */
+  cursor: pointer; /* Pointer cursor on hover */
+  border-radius: 4px; /* Rounded corners */
+}
+
+form button:hover {
+  background-color: #5a9; /* Lighter accent color on hover */
+}
+
+:root {
+  --color-accent: #0078D7; /* Define accent color */
 }

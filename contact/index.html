@@ -4,33 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact Method</title>
+    <link rel="stylesheet" href="../style.css"> 
 </head>
-
-
 <body>
     <h1>
-        Shuchang Liu's Contact Information
+        Contact me
     </h1>
-    
 
     <ul>
         <nav>
-            <li><a href="https://shuchangliu951.github.io/portfolio/">Home</a ></li>
-            <li><a href= "https://shuchangliu951.github.io/portfolio/projects"> Projects</a ></li>
-            <li><a href="https://shuchangliu951.github.io/portfolio/contact"> Contact</a ></li>
-            <li><a href="https://shuchangliu951.github.io/portfolio/Resume"> Resume</a ></li>    
+            <li><a href="https://shuchangliu951.github.io/portfolio/">Home</a></li>
+            <li><a href="https://shuchangliu951.github.io/portfolio/projects">Projects</a></li>
+            <li><a href="https://shuchangliu951.github.io/portfolio/Resume">Resume</a></li>
+            <li><a href="https://shuchangliu951.github.io/portfolio/contact" class="current">Contact</a></li>
+            <li><a href="https://github.com/ShuchangLiu951" target="_blank">GitHub</a></li>   
         </nav>
     </ul>
 
-
     <form action="mailto:shl153@ucsd.edu" method="post" enctype="text/plain">
-        <label>Email:</label>
-        <input name="email" type="email">
-        <label>Subject:</label>
-        <input name="subject">
-        <label>Body:</label>
-        <input name="body">
-        <button>Submit</button>
+        <label for="email">Email:</label>
+        <input id="email" name="email" type="email" required>
+
+        <label for="subject">Subject:</label>
+        <input id="subject" name="subject" type="text" required>
+
+        <label for="body">Message:</label>
+        <textarea id="body" name="body" rows="5" required></textarea>
+
+        <button type="submit">Send</button>
     </form>
 </body>
 </html>
