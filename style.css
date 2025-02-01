@@ -177,3 +177,27 @@ ul li {
   font-size: 0.8rem;
   z-index: 1000;
 }
+
+
+/* Styling for GitHub Stats */
+#profile-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* Four equal columns */
+  gap: 1em; /* Add space between columns */
+  text-align: center; /* Center-align text */
+}
+
+#profile-stats dt {
+  font-size: 0.8rem; /* Smaller text for labels */
+  font-weight: bold; /* Make labels bold */
+  color: var(--text-secondary); /* Secondary text color */
+  grid-row: 1; /* Place in the first row */
+}
+
+#profile-stats dd {
+  font-size: 2rem; /* Larger text for values */
+  font-weight: bold; /* Bold values */
+  color: var(--text-primary); /* Primary text color */
+  margin: 0; /* Remove default margin */
+  grid-row: 2; /* Place in the second row */
+}
