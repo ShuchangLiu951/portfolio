@@ -14,36 +14,30 @@ const pages = [
 
 const ARE_WE_HOME = document.documentElement.classList.contains('home');
 
-
 const nav = document.createElement('nav');
 document.body.prepend(nav);
 
 for (let page of pages) {
     let { url, title, external } = page;
-
     
     if (!ARE_WE_HOME && !url.startsWith('http')) {
         url = '../' + url;
     }
 
-    
     const a = document.createElement('a');
     a.href = url;
     a.textContent = title;
 
-    
     if (a.host === location.host && a.pathname === location.pathname) {
         a.classList.add('current');
     }
 
-    
     if (external) {
         a.target = '_blank';
     }
 
     nav.appendChild(a);
 }
-
 
 document.body.insertAdjacentHTML(
     'afterbegin',
@@ -57,22 +51,45 @@ document.body.insertAdjacentHTML(
     </label>`
 );
 
-
 const themeSelector = document.getElementById('theme-selector');
 const root = document.documentElement;
-
 
 function applyTheme(theme) {
     root.style.setProperty('color-scheme', theme);
     localStorage.setItem('theme', theme);
 }
 
-
 const savedTheme = localStorage.getItem('theme') || 'auto';
 applyTheme(savedTheme);
 themeSelector.value = savedTheme;
 
-
 themeSelector.addEventListener('input', (e) => {
     applyTheme(e.target.value);
 });
+
+export async function fetchJSON(url) {
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`Failed to fetch projects: ${response.statusText}`);
+        }
+        return await response.json();
+    } catch (error) {
+        console.error('Error fetching or parsing JSON data:', error);
+    }
+}
+
+export function renderProjects(projects, containerElement, headingLevel = 'h2') {
+    if (!containerElement) return;
+    containerElement.innerHTML = ''; 
+
+    projects.forEach((project) => {
+        const article = document.createElement('article');
+        article.innerHTML = `
+            <${headingLevel}>${project.title}</${headingLevel}>
+            <img src="${project.image}" alt="${project.title}">
+            <p>${project.description}</p>
+        `;
+        containerElement.appendChild(article);
+    });
+}
