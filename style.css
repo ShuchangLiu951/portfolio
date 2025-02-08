@@ -1,9 +1,9 @@
 /* General Body Styling */
 body {
   font: 100%/1.5 system-ui; /* Set font and line height */
-  max-width: 60ch; /* Adjust max width for better alignment */
-  margin-inline: auto; /* Center content horizontally */
+  margin: 0 auto; /* Center content horizontally */
   padding-inline: 1rem; /* Add horizontal padding */
+  max-width: 75%; /* Allow content to stretch across the screen */
 }
 
 /* Remove default list styling */
@@ -81,10 +81,12 @@ form button:hover {
 
 /* Styling the Projects Section */
 .projects {
-  display: grid; /* Enable CSS Grid */
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Adaptive columns */
-  gap: 1.5em; /* Add space between items */
-  margin-top: 2em; /* Add spacing above projects section */
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Wider minimum width for projects */
+  gap: 1.5em; /* Space between projects */
+  margin: 2em auto; /* Center grid on the page */
+  width: 90%; /* Allow the grid to stretch almost full width */
+  max-width: 1200px; /* Optional: Set a max width for large screens */
 }
 
 .projects article {
@@ -115,7 +117,6 @@ form button:hover {
   color: var(--text-secondary); /* Adaptable to theme */
   line-height: 1.6; /* Improve readability */
 }
-
 
 /* Resume Page Styling */
 header h1 {
@@ -174,13 +175,12 @@ ul li {
 }
 
 .color-scheme {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  font-size: 0.8rem;
-  z-index: 1000;
+  position: absolute; /* Position it relative to the viewport */
+  top: 1rem; /* Distance from the top */
+  right: 1rem; /* Distance from the right */
+  font-size: 0.8rem; /* Adjust font size */
+  z-index: 1000; /* Ensure it appears above other elements */
 }
-
 
 /* Styling for GitHub Stats */
 #profile-stats {
@@ -205,4 +205,75 @@ ul li {
   grid-row: 2; /* Place in the second row */
 }
 
+/* Styling for Pie Chart */
+.chart-container {
+  display: flex;
+  flex-wrap: nowrap; /* Prevent wrapping */
+  align-items: center; /* Align items vertically */
+  justify-content: space-between; /* Space out pie chart and legend */
+  gap: 2em; /* Add space between pie chart and year bar */
+  max-width: 100%; /* Stretch across the screen */
+  margin: 2em auto; /* Center container on the page */
+}
 
+#projects-pie-plot {
+  flex: 1; /* Allow pie chart to resize */
+  max-width: 20em; /* Limit the size */
+}
+
+#projects-pie-plot path {
+  stroke: white; /* Add a white border between slices */
+  stroke-width: 1px;
+  cursor: pointer; /* Pointer for interactivity */
+  transition: transform 0.2s ease-in-out; /* Smooth transition for hover and selection */
+}
+
+#projects-pie-plot path:hover {
+  transform: scale(1.1); /* Slightly enlarge on hover */
+}
+
+#projects-pie-plot path.selected {
+  transform: scale(1.15); /* Make selected slice distinct */
+  stroke: black;
+  stroke-width: 2px;
+}
+
+/* Legend Styling */
+.legend {
+  flex: 1; /* Allow legend to resize */
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(9em, 1fr)); /* Adaptive layout */
+  gap: 0.5em;
+  padding: 0.5em;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background-color: var(--article-bg);
+}
+
+.legend li {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  padding: 0.5em;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.legend .swatch {
+  width: 1em;
+  height: 1em;
+  border-radius: 50%;
+  background-color: var(--color);
+}
+
+/* Search Bar Styling */
+.searchBar {
+  display: block;
+  width: 100%; /* Match the width of the project grid */
+  max-width: 1200px; /* Limit width for large screens */
+  padding: 0.8em; /* Add padding for better usability */
+  font-size: 1.2rem; /* Increase text size */
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  margin: 1em auto; /* Center the bar */
+}

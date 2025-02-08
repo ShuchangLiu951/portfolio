@@ -7,12 +7,16 @@
     <link rel="stylesheet" href="../style.css">
 </head>
 <body>
-    <h1 class="projects-title"></h1>
-    <section class="projects">
-    </section>
+    <h1 class="projects-title"></h1> 
 
-    <!-- Add the SVG for the pie chart -->
-    <svg id="projects-pie-plot" viewBox="-50 -50 100 100"></svg>
+    <div class="chart-container">
+        <svg id="projects-pie-plot" viewBox="-50 -50 100 100"></svg>
+        <ul class="legend"></ul> 
+    </div>
+
+    <input class="searchBar" type="search" placeholder="🔍 Search projects..." aria-label="Search projects">
+
+    <section class="projects"></section>
 
     <script src="../global.js" type="module"></script>
     <script src="projects.js" type="module"></script>
