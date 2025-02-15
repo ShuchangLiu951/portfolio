@@ -18,14 +18,33 @@ async function loadData() {
     }
 }
 
-// Function to display summary statistics
 function displayStats(data) {
     const avgLineLength = d3.mean(data, d => d.length);
     const longestLine = d3.max(data, d => d.length);
-    const maxDepth = d3.max(data, d => d.depth);
-    const avgDepth = d3.mean(data, d => d.depth);
 
-    console.log("Stats Computed:", { avgLineLength, longestLine, maxDepth, avgDepth });
+    // 🔹 Compute Average File Length
+    const fileLengths = d3.rollups(
+        data,
+        v => d3.max(v, d => d.line), // Get max line number in each file
+        d => d.file // Group by file
+    );
+    const avgFileLength = d3.mean(fileLengths, d => d[1]);
+
+    // 🔹 Compute Most Active Day of the Week
+    const dayCounts = d3.rollups(
+        data,
+        v => v.length, // Count commits per day
+        d => new Date(d.datetime).getDay() // Group by weekday (0 = Sunday, 6 = Saturday)
+    );
+
+    const mostActiveDay = dayCounts.length > 0
+        ? dayCounts.sort((a, b) => b[1] - a[1])[0][0] // Find day with max commits
+        : null;
+
+    const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    const mostActiveDayName = mostActiveDay !== null ? dayNames[mostActiveDay] : "N/A";
+
+    console.log("Stats Computed:", { avgLineLength, longestLine, avgFileLength, mostActiveDayName });
 
     const summary = d3.select("#summary");
 
@@ -34,8 +53,8 @@ function displayStats(data) {
     const stats = [
         { label: "Average Line Length", value: avgLineLength.toFixed(2) },
         { label: "Longest Line", value: longestLine },
-        { label: "Maximum Depth", value: maxDepth },
-        { label: "Average Depth", value: avgDepth.toFixed(2) }
+        { label: "Average File Length", value: avgFileLength.toFixed(2) },
+        { label: "Most Active Day", value: mostActiveDayName }
     ];
 
     stats.forEach(stat => {
@@ -44,6 +63,8 @@ function displayStats(data) {
         statContainer.append("dd").text(stat.value);
     });
 }
+
+
 
 // Function to create the scatterplot
 function createScatterplot(data) {
@@ -67,15 +88,10 @@ function createScatterplot(data) {
         .range([height - margin.bottom, margin.top]);
 
     
-    // Append X axis with rotated labels
+    // Append X axis
     svg.append("g")
         .attr("transform", `translate(0,${height - margin.bottom})`)
-        .call(d3.axisBottom(xScale)
-            .ticks(d3.timeDay.every(2)) // 🔹 Adjust tick interval (every 2 days)
-            .tickFormat(d3.timeFormat("%a %d %b"))) // 🔹 Format: "Fri 31 Feb"
-        .selectAll("text") // 🔹 Rotate labels
-        .attr("transform", "rotate(-30)") // Rotate by -30 degrees
-        .style("text-anchor", "end"); // Align text properly
+        .call(d3.axisBottom(xScale));
 
 
     // Append Y axis (reversed order)
