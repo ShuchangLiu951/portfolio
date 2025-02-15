@@ -63,15 +63,22 @@ function createScatterplot(data) {
         .nice();
 
     const yScale = d3.scaleLinear()
-        .domain([0, 24])
+        .domain([24, 0]) // 🔹 Reverse the Y-axis domain
         .range([height - margin.bottom, margin.top]);
 
-    // Append X axis
+    
+    // Append X axis with rotated labels
     svg.append("g")
         .attr("transform", `translate(0,${height - margin.bottom})`)
-        .call(d3.axisBottom(xScale));
+        .call(d3.axisBottom(xScale)
+            .ticks(d3.timeDay.every(2)) // 🔹 Adjust tick interval (every 2 days)
+            .tickFormat(d3.timeFormat("%a %d %b"))) // 🔹 Format: "Fri 31 Feb"
+        .selectAll("text") // 🔹 Rotate labels
+        .attr("transform", "rotate(-30)") // Rotate by -30 degrees
+        .style("text-anchor", "end"); // Align text properly
 
-    // Append Y axis
+
+    // Append Y axis (reversed order)
     svg.append("g")
         .attr("transform", `translate(${margin.left},0)`)
         .call(d3.axisLeft(yScale)
@@ -96,10 +103,11 @@ function createScatterplot(data) {
         .data(data)
         .join("circle")
         .attr("cx", d => xScale(d.datetime))
-        .attr("cy", d => yScale(d.hourFrac))
+        .attr("cy", d => yScale(d.hourFrac)) // 🔹 Keep hour mapping correct
         .attr("r", 5)
         .attr("fill", "steelblue");
 }
+
 
 // Run the function when the page loads
 document.addEventListener("DOMContentLoaded", loadData);
