@@ -1,5 +1,0 @@
-# Ignore generated CSV files
-meta/loc.csv
-
-# Ignore node modules
-node_modules/
