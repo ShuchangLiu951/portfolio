@@ -355,3 +355,14 @@ dl.info[hidden]:not(:hover, :focus-within) {
   opacity: 0;
   visibility: hidden;
 }
+
+
+/* Smooth dot size transitions */
+circle {
+  transition: 200ms;
+  transform-origin: center;
+}
+
+circle:hover {
+  transform: none; /* 🔹 Prevent dots from shifting position */
+}

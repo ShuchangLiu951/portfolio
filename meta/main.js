@@ -90,6 +90,16 @@ function createScatterplot(data) {
         .domain([24, 0]) // 🔹 Reverse Y-axis so 00:00 is at the top
         .range([height - margin.bottom, margin.top]);
 
+    const [minLines, maxLines] = d3.extent(data, d => d.line);
+
+    // 🔹 Use a square root scale for size to better reflect visual perception
+    const rScale = d3.scaleSqrt()
+        .domain([minLines, maxLines])
+        .range([3, 30]); // 🔹 Min size 3, Max size 30
+
+    // 🔹 Sort commits by total lines changed (largest first)
+    const sortedData = data.sort((a, b) => b.line - a.line);
+
     // Append Grid Lines
     svg.append("g")
         .attr("class", "grid")
@@ -146,25 +156,48 @@ function createScatterplot(data) {
     // Append dots with tooltip interaction
     svg.append("g")
         .selectAll("circle")
-        .data(data)
+        .data(sortedData) // 🔹 Use sorted data
         .join("circle")
         .attr("cx", d => xScale(d.datetime))
         .attr("cy", d => yScale(d.hourFrac))
-        .attr("r", 5)
+        .attr("r", d => rScale(d.line)) // 🔹 Scale dot size based on lines edited
         .attr("fill", "steelblue")
-        .on("mouseenter", (event, commit) => {
+        .style("fill-opacity", d => 0.2 + (0.5 * (1 - rScale(d.line) / 30))) // 🔹 Larger dots more transparent
+        .on("mouseover", function (event, commit) { 
+            d3.selectAll("circle").style("fill-opacity", d => 0.2 + (0.5 * (1 - rScale(d.line) / 30))); // Reset all dots' opacity
+            d3.select(this)
+                .style("fill-opacity", 1) // Highlight hovered dot
+                .attr("r", d => rScale(d.line) + 3); // 🔹 Expand dot size without jumping
+
             updateTooltipContent(commit);
             updateTooltipVisibility(true);
             updateTooltipPosition(event);
         })
-        .on("mousemove", (event) => {
-            updateTooltipPosition(event);
+        .on("mousemove", function (event) {
+            const [mouseX, mouseY] = d3.pointer(event);
+            
+            // Find the nearest commit to the mouse pointer
+            const nearestCommit = d3.least(sortedData, d => {
+                const dx = mouseX - xScale(d.datetime);
+                const dy = mouseY - yScale(d.hourFrac);
+                return Math.sqrt(dx * dx + dy * dy); // Distance formula
+            });
+        
+            if (nearestCommit) {
+                updateTooltipContent(nearestCommit);
+                updateTooltipPosition(event);
+            }
         })
-        .on("mouseleave", () => {
+        .on("mouseout", function () {
+            d3.select(this)
+                .style("fill-opacity", d => 0.2 + (0.5 * (1 - rScale(d.line) / 30))) // 🔹 Restore transparency dynamically
+                .attr("r", d => rScale(d.line)); // 🔹 Reset dot size
+
             updateTooltipContent({});
             updateTooltipVisibility(false);
         });
 }
+
 
 
 // Run the function when the page loads
