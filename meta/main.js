@@ -6,7 +6,11 @@ async function loadData() {
             depth: +row.depth,
             length: +row.length,
             datetime: new Date(row.datetime),
-            hourFrac: new Date(row.datetime).getHours() + new Date(row.datetime).getMinutes() / 60
+            hourFrac: new Date(row.datetime).getHours() + new Date(row.datetime).getMinutes() / 60,
+            author: row.author,
+            file: row.file,
+            id: row.id,
+            url: row.url
         }));
 
         console.log("CSV Loaded:", data); // Debugging log
@@ -18,6 +22,7 @@ async function loadData() {
     }
 }
 
+// Function to display summary statistics
 function displayStats(data) {
     const avgLineLength = d3.mean(data, d => d.length);
     const longestLine = d3.max(data, d => d.length);
@@ -64,8 +69,6 @@ function displayStats(data) {
     });
 }
 
-
-
 // Function to create the scatterplot
 function createScatterplot(data) {
     const width = 1000;
@@ -84,23 +87,10 @@ function createScatterplot(data) {
         .nice();
 
     const yScale = d3.scaleLinear()
-        .domain([24, 0]) // 🔹 Reverse the Y-axis domain
+        .domain([24, 0]) // 🔹 Reverse Y-axis so 00:00 is at the top
         .range([height - margin.bottom, margin.top]);
 
-    
-    // Append X axis
-    svg.append("g")
-        .attr("transform", `translate(0,${height - margin.bottom})`)
-        .call(d3.axisBottom(xScale));
-
-
-    // Append Y axis (reversed order)
-    svg.append("g")
-        .attr("transform", `translate(${margin.left},0)`)
-        .call(d3.axisLeft(yScale)
-            .tickFormat(d => `${String(d).padStart(2, '0')}:00`));
-
-    // Append grid lines
+    // Append Grid Lines
     svg.append("g")
         .attr("class", "grid")
         .selectAll("line")
@@ -113,15 +103,67 @@ function createScatterplot(data) {
         .attr("stroke", "#ddd")
         .attr("stroke-dasharray", "4");
 
-    // Append dots
+    // Append X axis
+    svg.append("g")
+        .attr("transform", `translate(0,${height - margin.bottom})`)
+        .call(d3.axisBottom(xScale));
+
+    // Append Y axis
+    svg.append("g")
+        .attr("transform", `translate(${margin.left},0)`)
+        .call(d3.axisLeft(yScale)
+            .tickFormat(d => `${String(d).padStart(2, '0')}:00`));
+
+    // Tooltip setup
+    const tooltip = document.getElementById("commit-tooltip");
+
+    function updateTooltipContent(commit) {
+        const link = document.getElementById('commit-link');
+        const date = document.getElementById('commit-date');
+        const time = document.getElementById('commit-time');
+        const author = document.getElementById('commit-author');
+        const lines = document.getElementById('commit-lines');
+
+        if (Object.keys(commit).length === 0) return;
+
+        link.href = commit.url;
+        link.textContent = commit.id;
+        date.textContent = commit.datetime?.toLocaleDateString('en', { dateStyle: 'full' });
+        time.textContent = commit.datetime?.toLocaleTimeString('en', { timeStyle: 'short' });
+        author.textContent = commit.author;
+        lines.textContent = commit.line;
+    }
+
+    function updateTooltipVisibility(isVisible) {
+        tooltip.hidden = !isVisible;
+    }
+
+    function updateTooltipPosition(event) {
+        tooltip.style.left = `${event.clientX}px`;
+        tooltip.style.top = `${event.clientY}px`;
+    }
+
+    // Append dots with tooltip interaction
     svg.append("g")
         .selectAll("circle")
         .data(data)
         .join("circle")
         .attr("cx", d => xScale(d.datetime))
-        .attr("cy", d => yScale(d.hourFrac)) // 🔹 Keep hour mapping correct
+        .attr("cy", d => yScale(d.hourFrac))
         .attr("r", 5)
-        .attr("fill", "steelblue");
+        .attr("fill", "steelblue")
+        .on("mouseenter", (event, commit) => {
+            updateTooltipContent(commit);
+            updateTooltipVisibility(true);
+            updateTooltipPosition(event);
+        })
+        .on("mousemove", (event) => {
+            updateTooltipPosition(event);
+        })
+        .on("mouseleave", () => {
+            updateTooltipContent({});
+            updateTooltipVisibility(false);
+        });
 }
 
 
