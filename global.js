@@ -8,8 +8,7 @@ const pages = [
     { url: '', title: 'Home' },
     { url: 'projects/', title: 'Projects' },
     { url: 'Resume/', title: 'CV' },
-    { url: 'contact/', title: 'Contact' },
-    { url: 'meta/', title: 'Meta' },  
+    { url: 'contact/', title: 'Contact' },  
     { url: 'https://github.com/ShuchangLiu951', title: 'GitHub', external: true }
 ];
 
