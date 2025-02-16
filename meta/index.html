@@ -3,36 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meta Analysis</title>
-    <link rel="stylesheet" href="../style.css">
+    <title>Meta</title>
+    <link rel="stylesheet" href="../style.css">  
 </head>
+
 <body>
     <h1>Meta</h1>
-    <p>This page provides insights into the structure and activity of our codebase.</p>
-
-    <h2>Summary</h2>
-    <dl id="summary"></dl>
-
-    <h2>Commits by Time of Day</h2>
-    <div id="chart"></div> <!-- Scatterplot container -->
-
-    <!-- Tooltip Container -->
-    <dl id="commit-tooltip" class="info tooltip" hidden>
+    <p>The pages includes stats about the code of this website.</p>
+    <h1>Summary</h1>
+    
+    <div id="status"></div>
+ 
+    <h2>Commits by time of day</h2>
+    <div id="chart"></div>
+    
+    <dl id="commit-tooltip" class="info tooltip">
         <dt>Commit</dt>
-        <dd><a href="" id="commit-link" target="_blank"></a></dd>
+        <dd>
+        <a href="" id="commit-link" target="_blank"></a>
+        </dd>
         <dt>Date</dt>
         <dd id="commit-date"></dd>
-        <dt>Time</dt>
-        <dd id="commit-time"></dd>
-        <dt>Author</dt>
-        <dd id="commit-author"></dd>
-        <dt>Lines Changed</dt>
-        <dd id="commit-lines"></dd>
+    
     </dl>
 
-    <script src="../global.js" type="module"></script>
+
+    <p id="selection-count">No commits selected</p>
+    <dl id="language-breakdown" class="stats"></dl>
+
+    <script type="module" src="../global.js"></script>
+    <script type="module" src="main.js"></script>
     <script src="https://d3js.org/d3.v7.min.js"></script>
-    <script src="main.js"></script>
 </body>
 </html>
-
